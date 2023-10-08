@@ -1,7 +1,7 @@
 import { Readable } from "node:stream";
 import { setTimeout as delay } from "node:timers/promises";
 import all from "it-all";
-import { asyncMerge } from "./asyncMerge";
+import { AsyncIterable } from "./AsyncIterable";
 
 type TestPrimitive = number | boolean | string;
 
@@ -19,7 +19,7 @@ async function* testGenerator(base: number): AsyncIterable<number> {
 describe("Merging into an async iterable", () => {
   describe("when passing non-iterable values", () => {
     it("should work with primitives", async () => {
-      const asyncIterable = asyncMerge<TestPrimitive>(90, true, "Dodo");
+      const asyncIterable = AsyncIterable.from<TestPrimitive>(90, true, "Dodo");
 
       const actualItems = await all(asyncIterable);
 
@@ -27,7 +27,7 @@ describe("Merging into an async iterable", () => {
     });
 
     it("should work with objects", async () => {
-      const asyncIterable = asyncMerge<object>(yogi, bubu);
+      const asyncIterable = AsyncIterable.from<object>(yogi, bubu);
 
       const actualItems = await all(asyncIterable);
 
@@ -36,7 +36,7 @@ describe("Merging into an async iterable", () => {
   });
 
   it("should work with sync iterables", async () => {
-    const asyncIterable = asyncMerge<TestPrimitive | Bear>(
+    const asyncIterable = AsyncIterable.from<TestPrimitive | Bear>(
       [90, "Dodo"],
       new Set([yogi]),
       new Set([bubu])
@@ -48,7 +48,7 @@ describe("Merging into an async iterable", () => {
   });
 
   it("should work with async iterables", async () => {
-    const asyncIterable = asyncMerge(
+    const asyncIterable = AsyncIterable.from(
       testGenerator(90),
       Readable.from(["Dodo", yogi, bubu])
     );
@@ -59,7 +59,7 @@ describe("Merging into an async iterable", () => {
   });
 
   it("should work with a mix of primitives and iterators", async () => {
-    const asyncIterable = asyncMerge<TestPrimitive | Bear>(
+    const asyncIterable = AsyncIterable.from<TestPrimitive | Bear>(
       7,
       ["Dodo", yogi],
       testGenerator(90),
@@ -69,5 +69,25 @@ describe("Merging into an async iterable", () => {
     const actualItems = await all(asyncIterable);
 
     expect(actualItems).toEqual([7, "Dodo", yogi, 90, 92, "Ciop", bubu]);
+  });
+});
+
+describe("Wrapping an async iterable into an XML root", () => {
+  it("should support an empty iterable", async () => {
+    const source = Readable.from([]);
+
+    const wrapped = await all(AsyncIterable.wrapXml(source));
+
+    expect(wrapped).toEqual(["<XmlRootNode>", "</XmlRootNode>"]);
+  });
+
+  it("should actually wrap the items between XML tags", async () => {
+    const items = ["<alpha />", "<beta />", "<gamma />"];
+
+    const source = Readable.from(items);
+
+    const wrapped = await all(AsyncIterable.wrapXml(source));
+
+    expect(wrapped).toEqual(["<XmlRootNode>", ...items, "</XmlRootNode>"]);
   });
 });

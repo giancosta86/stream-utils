@@ -10,13 +10,13 @@ _Utilities for streams and iterables_
 
 In particular:
 
-- `asyncMerge()` takes a variable list of arguments of any type, creating an `AsyncIterable` which returns their values. Each argument can be:
+- `AsyncIterable.from()` takes a variable list of arguments of any type, creating an `AsyncIterable` which returns their values. Each argument can be:
 
   - an `Iterable` or an `AsyncIterable`: in this case, its elements will be yielded, one by one
 
   - _any other data type_: it will be yielded as it is
 
-- `wrapXmlIterable()`: takes an `AsyncIterable<string>` of XML chunks and returns another - having a customizable XML opening tag at the beginning and the related closing tag at the end
+- `AsyncIterable.wrapXml()`: takes an `AsyncIterable<string>` of XML chunks and returns another - having a customizable XML opening tag at the beginning and the related closing tag at the end
 
 - `addBatchListener()`: attaches an event listener - to any event of any `Stream` - that gets called only after such event has been notified the given number of times
 
