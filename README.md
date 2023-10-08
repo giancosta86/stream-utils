@@ -20,6 +20,8 @@ In particular:
 
 - `addBatchListener()`: attaches an event listener - to any event of any `Stream` - that gets called only after such event has been notified the given number of times
 
+- `Iterable.empty()`: returns if the given `Iterable` is empty
+
 ## Installation
 
 ```bash
