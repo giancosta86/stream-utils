@@ -20,7 +20,9 @@ In particular:
 
 - `addBatchListener()`: attaches an event listener - to any event of any `Stream` - that gets called only after such event has been notified the given number of times
 
-- `Iterable.empty()`: returns if the given `Iterable` is empty
+- `Iterable.isEmpty()`: returns if the `Iterable` is empty
+
+- `Iterable.isSupported()`: type guard ensuring that the value is an `Iterable`
 
 ## Installation
 
