@@ -24,6 +24,8 @@ In particular:
 
 - `Iterable.isSupported()`: type guard ensuring that the value is an `Iterable`
 
+- `Iterable.getFirst()`: returns the first item of an `Iterable`; if such `Iterable` is empty, an error is thrown
+
 ## Installation
 
 ```bash
