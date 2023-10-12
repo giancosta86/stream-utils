@@ -18,13 +18,17 @@ In particular:
 
 - `AsyncIterable.wrapXml()`: takes an `AsyncIterable<string>` of XML chunks and returns another - having a customizable XML opening tag at the beginning and the related closing tag at the end
 
-- `addBatchListener()`: attaches an event listener - to any event of any `Stream` - that gets called only after such event has been notified the given number of times
+- `addBatchListener()`: attaches an event listener - to any event of any `Stream` - that gets called only after such event has been notified the number of times
 
 - `Iterable.isEmpty()`: returns if the `Iterable` is empty
 
 - `Iterable.isSupported()`: type guard ensuring that the value is an `Iterable`
 
 - `Iterable.getFirst()`: returns the first item of an `Iterable`; if such `Iterable` is empty, an error is thrown
+
+- `Iterable.equals()`: returns `true` if the two given iterables have the same length - and all the items at the same position are equal according to the given _equality function_ passed as the optional 3rd argument (by default, _strict equality_ via `===`)
+
+- `Iterable.rangeIncluding()`: returns an `Iterable<number>` returning the values from the lower bound L up to the upper bound U - including both. If L > U, an empty `Iterable` is returned instead
 
 ## Installation
 
